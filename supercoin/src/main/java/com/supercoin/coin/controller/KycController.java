@@ -1,5 +1,6 @@
 package com.supercoin.coin.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.supercoin.coin.model.KYC;
 import com.supercoin.coin.model.User;
@@ -44,7 +47,9 @@ public class KycController {
 	}
 
 	@PostMapping("/kycUpdate")
-	public String kycUpdate(@ModelAttribute("KYC") KYC kyc, HttpSession session, Model model) {
+	public String kycUpdate(@ModelAttribute("KYC") KYC kyc, HttpSession session, Model model,
+			@RequestParam("frontFile") MultipartFile frontFile, @RequestParam("backFile") MultipartFile backFile)
+			throws IOException {
 		Integer userId = (Integer) session.getAttribute("userid");
 		Boolean auth = (Boolean) session.getAttribute("authentication");
 
@@ -55,8 +60,19 @@ public class KycController {
 
 				kyc.setName(user.getName());
 				// Save the new KYC object with other fields populated automatically
-				kycRepository.save(kyc);
 
+				if (!frontFile.isEmpty()) {
+					kyc.setFrontImage(frontFile.getBytes());
+				}
+
+				if (!backFile.isEmpty()) {
+					kyc.setBackImage(backFile.getBytes());
+				}
+
+				kyc.setStatus("Pending");
+				kycRepository.save(kyc);
+				user.setKyc(kyc);
+				userRepository.save(user);
 				System.err.println(kyc);
 				// Set a success message and redirect
 				session.setAttribute("kycMsg",

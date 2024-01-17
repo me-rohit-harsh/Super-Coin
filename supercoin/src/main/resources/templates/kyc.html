@@ -152,7 +152,7 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
 						<div class="card h-100 p-5">
 
-							<form th:action="@{/kycUpdate}" method="post" >
+							<form th:action="@{/kycUpdate}" method="post" enctype="multipart/form-data">
 								<div class="row">
 									<h2 class="text-center">KYC Form</h2>
 									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -171,7 +171,7 @@
 									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<label for="documentType" class="form-label">Select
 											Document Type</label> <select class="form-select" id="documentType"
-											required name="docType" >
+											required name="docType">
 											<option value="" selected disabled>Select Document</option>
 											<option value="aadharCard">Aadhar Card</option>
 											<option value="passport">Passport</option>
@@ -181,10 +181,24 @@
 
 									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<label for="documentNumber" class="form-label">Document
-											Number</label> <input name="docNumber" 
-											type="number" class="form-control" id="documentNumber"
+											Number</label> <input name="docNumber" type="text"
+											class="form-control" id="documentNumber"
 											placeholder="Document Number" required>
 									</div>
+									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="frontFile" class="form-label">Front Part
+											of Document</label> <input type="file" class="form-control" id="frontFile" name="frontFile" accept="image/*" onchange="previewImage('frontFile', 'frontPreview')">
+										<img id="frontPreview" class="image-preview"
+											>
+									</div>
+
+									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="backFile" class="form-label">Back Part of
+											Document</label><input type="file" class="form-control" id="backFile" name="backFile" accept="image/*" onchange="previewImage('backFile', 'backPreview')">
+ <img
+											id="backPreview" class="image-preview">
+									</div>
+
 								</div>
 
 								<button type="submit" class="btn btn-primary">Submit</button>

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -17,25 +18,26 @@ public class KYC {
 	private Integer id;
 
 	@Column(name = "Name")
-	 private String name;
+	private String name;
 
 	@Column(name = "Age")
 	private Integer age;
 
 	@Column(name = "Document_number")
-	private Long docNumber;
+	private String docNumber;
 
 	@Column(name = "Document_type")
 	private String docType;
 
-	@Column(name = "Front_image")
-	private byte[] front;
+	@Lob
+	@Column(name = "Front_image", columnDefinition = "LONGBLOB")
+	private byte[] frontImage;
 
-	@Column(name = "Back_image")
-	private byte[] back;
+	@Lob
+	@Column(name = "Back_image", columnDefinition = "LONGBLOB")
+	private byte[] backImage;
 
 	@Column(name = "Verification_status")
 	private String status;
 
-	
 }
