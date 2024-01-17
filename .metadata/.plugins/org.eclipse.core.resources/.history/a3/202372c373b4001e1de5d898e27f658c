@@ -1,0 +1,53 @@
+package com.supercoin.coin.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.supercoin.coin.model.Credential;
+import com.supercoin.coin.model.User;
+import com.supercoin.coin.repository.UserRepository;
+import com.supercoin.coin.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class loginController {
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	public loginController(UserService userService) {
+		super();
+		this.userService = userService;
+	}
+
+	public loginController() {
+		super();
+	}
+
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+
+	@PostMapping("authenticate")
+	public String login(@ModelAttribute("credential") Credential credential, HttpSession session) {
+		
+		User loggedInUser = userRepository.findByIdAndPassword(credential.getId(), credential.getPassword());
+		if (loggedInUser != null) {
+			System.out.println(loggedInUser);
+			session.setAttribute("userid", loggedInUser.getId());
+			return "redirect:/dashboard";
+		}
+		session.setAttribute("checkCredentials", false);
+		return "redirect:/login?error";
+	}
+
+	
+}

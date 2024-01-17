@@ -1,0 +1,50 @@
+package com.supercoin.coin.controller;
+
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.supercoin.coin.model.User;
+import com.supercoin.coin.repository.UserRepository;
+import com.supercoin.coin.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class registerController {
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
+	
+	@GetMapping("/register")
+	public String createUserForm(Model model) {
+		System.out.println("@GetMapping(\"register\")");
+		User user = new User();
+		model.addAttribute("user", user);
+		return "register";
+	}
+
+	@PostMapping("/user")
+	public String saveUser(@ModelAttribute("user") User user, HttpSession session) {
+		
+		
+		UUID uuid = UUID.randomUUID();
+        String secretCode = uuid.toString().replaceAll("[^a-zA-Z0-9]", "").substring(0, 6).toUpperCase();
+		user.setCode(secretCode);
+		int userId = userService.saveUserId(user);
+		System.out.println(user);
+		System.out.println("++++++++++++++++++++++++++++++++++++");
+		System.err.println("User ID: "+user.getId()+ "|| Secrete Code: "+ user.getCode() );
+		System.out.println("++++++++++++++++++++++++++++++++++++");
+
+		return "redirect:/login?success";
+	}
+
+}

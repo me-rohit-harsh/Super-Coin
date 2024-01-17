@@ -1,0 +1,18 @@
+package com.supercoin.coin.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class TeamController {
+	
+	@GetMapping("/directmember")
+	public String directTeam() {
+		return "directmember";
+	}
+
+	@GetMapping("/teammember")
+	public String teamMember() {
+		return "teammember";
+	}
+}

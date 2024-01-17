@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Additional CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.9/typicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    
+</head>
+
+<body>
+    <div class="animated bounceInDown">
+        <div class="container">
+            <span class="error animated tada" id="msg"></span>
+            <form name="form1" class="box" th:action="@{/login}">
+                <h4>Admin <span>Dashboard</span></h4>
+                <h5>Sign in to your account.</h5>
+                <input type="email" name="email" placeholder="Email" required>
+                <i class="typcn typcn-eye" id="eye"></i>
+                <input type="password" name="password" placeholder="Password" id="pwd"  required>
+
+                <a href="#" class="forgetpass" data-toggle="modal" data-target="#exampleModal">Forget Password?</a>
+                <button type="submit"  class="btn1">Sign in</button>
+            </form>
+            <a href="#" class="dnthave">Don’t have an account? Sign up</a>
+        </div>
+    </div>
+
+    <!-- Pop-up model -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="card-header h5 text-white bg-primary">Password Viewer
+                    <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/reset}" th:object="${PasswordReset}" method="POST">
+
+                        <div class="mb-3">
+                            <label for="user-id" class="col-form-label">User Id:</label> <input type="text"
+                                class="form-control" id="user-id" placeholder="Enter your user id" name="userId"
+                                required="required" pattern="[0-9]+" title="Please enter only numeric values">
+                        </div>
+                        <div class="mb-3">
+                            <label for="secrete-id" class="col-form-label">Secrete Id:</label> <input type="text"
+                                class="form-control" id="secrete-id" placeholder="Enter your secret id"
+                                name="secretId" required="required">
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Get Password</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <a th:href="@{register}">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript files -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="javascript/login.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+package com.supercoin.coin.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class logoutController {
+	@GetMapping("logout")
+	public boolean logout() {
+		// Invalidate the user's session
+		session.invalidate();
+		System.out.println("Session invalidated succesfully for user: " + user);
+	}
+}

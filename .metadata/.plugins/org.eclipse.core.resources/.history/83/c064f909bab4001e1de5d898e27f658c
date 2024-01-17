@@ -1,0 +1,5 @@
+package com.supercoin.coin.controller;
+
+public class ProfileController {
+
+}

@@ -1,0 +1,15 @@
+package com.supercoin.coin.service;
+
+import org.springframework.stereotype.Service;
+
+import com.supercoin.coin.model.User;
+
+@Service
+public interface UserService {
+	
+	User saveUser(User user);
+	
+	String saveUserId(User user);
+	
+
+}
