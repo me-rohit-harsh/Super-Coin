@@ -1,0 +1,179 @@
+ .live-search-box {
+     width: 100%;
+     display: block;
+     padding: 1em;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+     border: solid 1px #c3c3e4;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+     border-radius: 5px;
+     background: #2a2a42;
+     color: #fff;
+
+ }
+
+ .search {
+     position: relative;
+ }
+
+ .search__input {
+     padding-left: 45px;
+     /* Adjust the padding based on the icon size */
+ }
+
+ .search__icon {
+     position: absolute;
+     top: 50%;
+     left: 10px;
+     /* Adjust the left position based on the desired spacing */
+     transform: translateY(-50%);
+     opacity: 0.8;
+     cursor: pointer;
+     padding: 5px;
+ }
+
+ .cross__icon {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     right: 10px;
+     /* Adjust as needed */
+     cursor: pointer;
+     opacity: 0.8;
+     padding: 5px;
+     background: transparent;
+     color: #fff;
+ }
+
+
+ .faq {
+
+     background: #3c3c5b;
+     min-height: 100vh;
+ }
+
+ .faq .accordion .card {
+     border: none;
+     margin-bottom: 30px;
+     background: #1B1B30;
+     border-radius: 10px;
+ }
+
+
+
+ .faq .accordion .card .card-header {
+     border: none;
+     border-radius: 10px;
+     padding: 2px;
+ }
+
+
+
+ .faq .accordion .card .card-header h5 button {
+     color: #1e3056;
+     font-size: 18px;
+     font-weight: 500;
+     text-decoration: none;
+     padding: 0 30px 0 70px;
+     height: 80px;
+     display: block;
+     width: 100%;
+     color: rgba(217, 223, 237, 0.8);
+     text-align: left;
+     background: #1B1B30;
+     -webkit-box-shadow: 0px -50px 140px 0px rgba(69, 81, 100, 0.1);
+     box-shadow: 0px -50px 140px 0px rgba(69, 81, 100, 0.1);
+     border-radius: 10px 10px 0 0;
+     position: relative;
+ }
+
+ .faq .accordion .card .card-header h5 button:after {
+     position: absolute;
+     left: 30px;
+     top: 50%;
+     margin-top: -10px;
+     width: 20px;
+     height: 20px;
+     background-color: transparent;
+     color: rgb(255, 254, 254);
+     text-align: center;
+     border: 1px solid #fff;
+
+     line-height: 100%;
+     content: "\f067";
+     font-size: 10px;
+     line-height: 18px;
+     font-family: "Font Awesome 5 Free";
+     font-weight: 900;
+ }
+
+ .accordion .card:not(:first-of-type):not(:last-of-type) {
+     border-radius: 10px;
+ }
+
+ .faq .accordion .card .card-header h5 button.collapsed {
+     border-radius: 10px;
+     -webkit-box-shadow: none;
+     box-shadow: none;
+     border: 1px solid rgb(142, 148, 176, 0.3);
+ }
+
+ .faq .accordion .card .card-header h5 button[aria-expanded="true"]:after {
+     content: "\f068";
+     color: #fff;
+     /* background-image: -webkit-linear-gradient(-180deg,
+                    #5e7eff 0%,
+                    #446dae 30%,
+                    #262C3B 100%); */
+ }
+
+ .faq .accordion .card .card-body {
+     -webkit-box-shadow: 0px 15px 140px 0px rgba(69, 81, 100, 0.1);
+     box-shadow: 0px 15px 140px 0px rgba(69, 81, 100, 0.1);
+     border-radius: 0 0 10px 10px;
+     padding-top: 10px;
+     color: rgb(226, 224, 234);
+     line-height: 30px;
+     background: #252c3b;
+ }
+
+ .modal-header {
+     background: #535677;
+ }
+
+ .modal-content {
+     background: #2F3146;
+ }
+
+ .status-badge {
+     float: right;
+     margin-right: 10px;
+     /* Adjust as needed */
+ }
+
+ .footer-info {
+     display: flex;
+     justify-content: space-between;
+     align-items: flex-end;
+     margin-bottom: -15px;
+     padding-top: 5px;
+ }
+
+ .timestamp-badge,
+ .ticketId-badge {
+     margin-right: 10px;
+     /* Adjust as needed */
+     color: rgb(173, 175, 206);
+ }
+
+ .reply-section {
+     background-color: #6d6d80;
+     /* Light gray background */
+     padding: 10px;
+     margin-top: 10px;
+     border-left: 5px solid rgb(0, 0, 0);
+     color: #ffffff;
+     /* Green left border for visual separation */
+ }

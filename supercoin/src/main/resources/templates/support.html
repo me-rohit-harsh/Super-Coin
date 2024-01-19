@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- bootstrap -->
-
+    <!-- bootstrap JavaScript bundle (includes Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
     <!-- External Libraries -->
@@ -15,10 +15,29 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
-
+    <link rel="stylesheet" th:href="@{/css/support.css}">
 </head>
 
 <body>
+
+    <div class="alert-container">
+        <div th:if="${param.raised}">
+            <div class="alert alert-success alert-dismissible shadow-soft fade show"
+                th:if="${session.newTicketMsg!=null}">
+                <span class="alert-inner--icon"><span class="far fa-thumbs-up"></span></span>
+                <span class="alert-inner--text" th:text="${session.newTicketMsg}"></span>
+                <span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+            </div>
+        </div>
+        <div th:if="${param.notRaised}">
+            <div class="alert alert-danger alert-dismissible shadow-soft fade show"
+                th:if="${session.newTicketErrMsg!=null}">
+                <span class="alert-inner--icon"><span class="far fa-thumbs-down"></span></span>
+                <span class="alert-inner--text" th:text="${session.newTicketErrMsg}"></span>
+                <span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+            </div>
+        </div>
+    </div>
     <div class='dashboard'>
         <!-- Navigation -->
         <div class="dashboard-nav">
@@ -29,8 +48,9 @@
             </header>
 
             <nav class="dashboard-nav-list">
-                <a th:href="@{dashboard}" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i> Dashboard</a> <a
-                   th:href="@{profile}" class="dashboard-nav-item  "><i class="fas fa-user"></i> Profile</a>
+                <a th:href="@{dashboard}" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i>
+                    Dashboard</a> <a th:href="@{profile}" class="dashboard-nav-item  "><i class="fas fa-user"></i>
+                    Profile</a>
                 <a th:href="@{income}" class="dashboard-nav-item"><i class="fas fa-chart-line"></i> Income</a>
 
                 <!-- Users Dropdown -->
@@ -42,7 +62,8 @@
                         <a th:href="@{directmember}" class="dashboard-nav-dropdown-item"> <i class="fas fa-code-branch"
                                 style="transform: rotate(180deg) scaleX(-1); padding-right: 15px;"></i>
                             Direct Member
-                        </a> <a th:href="@{teammember}" class="dashboard-nav-dropdown-item"> <i class="fas fa-solid fa-sitemap"></i>
+                        </a> <a th:href="@{teammember}" class="dashboard-nav-dropdown-item"> <i
+                                class="fas fa-solid fa-sitemap"></i>
                             Team Member
                         </a>
                     </div>
@@ -54,7 +75,8 @@
                             class="fas fa-solid fa-wallet"></i> Wallet
                     </a>
                     <div class='dashboard-nav-dropdown-menu'>
-                        <a th:href="@{profitwallet}" class="dashboard-nav-dropdown-item"> <i class="fas fa-solid fa-coins"></i> Profit
+                        <a th:href="@{profitwallet}" class="dashboard-nav-dropdown-item"> <i
+                                class="fas fa-solid fa-coins"></i> Profit
                             Wallet
                         </a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item"> <i
                                 class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
@@ -86,11 +108,6 @@
 
         <!-- Dashboard Application Content -->
         <div class='dashboard-app'>
-
-
-
-
-
             <header class='dashboard-toolbar'>
                 <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
 
@@ -104,19 +121,280 @@
 
                     <!-- Circle Image Profile -->
                     <div class="profile-image">
-                        <img src="data:image/jpeg;base64,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"
-                            alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%;">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile Image"
+                            style="width: 50px; height: 50px; border-radius: 50%;">
                     </div>
                 </div>
             </header>
-   <div class="container text-center">
-				<h1>Support 24/7</h1>
-			</div>
+            <section class="faq">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-8 col-lg-8 text-center">
+                            <div class="section-title p-3">
+                                <div class="ticket">
+                                    <span class="p-5">OPEN A SUPPORT TICKET</span>
+                                    <button type="button" class=" mb-2 custom-btn btn-16 " data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        Raise Ticket
+                                    </button>
+                                </div>
+
+                                <div class="search">
+                                    <div class="search__wrapper">
+                                        <form>
+                                            <input type="text" class="search__input live-search-box"
+                                                placeholder="Search Frequently Asked Questions (FAQs)" id="searchInput">
+                                            <div class="search__icon">
+                                                <i class="fas fa-search"></i>
+                                            </div>
+                                            <!-- <button type="reset" class="cross__icon fas fa-times"></button> -->
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <h3>Frequently Asked Questions (FAQs)</h3>
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion" id="accordionExample">
+                                            <th:block th:each="ticket, iterStat : ${ticketList}">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">
+                                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                                            th:data-target="'#collapse' + ${ticket.id}" aria-expanded="false"
+                                                            th:aria-controls="'collapse' + ${ticket.id}">
+                                                            <th th:text="${ticket.topic}"></th>
+                                                            <span class="status-badge" th:text="'[ Status : '+${ticket.status}+' ]'"></span>
+                                                        </button>
+                                                    </h5>
+                                                </div>
+                                            
+                                                <div th:id="'collapse' + ${ticket.id}" class="collapse" data-parent="#accordionExample">
+                                                    <div class="card-body">
+                                                        <span th:text="${ticket.message}"></span>
+                                                        <!-- Section for displaying reply -->
+                                                        <div class="reply-section">
+                                                        <i class="fas fa-solid fa-share"></i>  <span class="p-2">Thank you for reaching out! 🚀 Our team is currently assisting other users, and we appreciate your patience. Rest
+                                                        assured, we'll get to your query as soon as possible. Feel free to explore other sections in the meantime. Your
+                                                        satisfaction is our priority!</span>
+                                                        </div>
+                                                        <div class="footer-info">
+                                                            <span class="ticketId-badge" th:text="'[ Ticket Id: #'+${ticket.id}+' ]'"></span>
+                                                            <div class="timestamp-badge" th:text="${ticket.timeStamp}"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="accordion" id="accordionExample">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapseOne"
+                                                        aria-expanded="false" aria-controls="collapseOne">
+                                                        Where does it come from?
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseOne" class="collapse" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    Rohit kumar is the best to popular belief, Lorem Ipsum is not simply
+                                                    random
+                                                    text. It has
+                                                    roots
+                                                    in a piece of classical Latin literature from 45 BC, making it over
+                                                    2000
+                                                    years
+                                                    old.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapseTwo"
+                                                        aria-expanded="false" aria-controls="collapseTwo">
+                                                        Where does it come from?
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    rohit Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
+                                                    libero totam doloremque recusandae repellendus odio molestiae illo,
+                                                    iure, dignissimos, similique beatae? At aperiam impedit quod fuga
+                                                    totam veniam nulla reiciendis?
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapse5"
+                                                        aria-expanded="false" aria-controls="collapseOne">
+                                                        What is Lorem Ipsum?
+                                                    </button>
+                                                </h5>
+                                            </div>
+
+                                            <div id="collapse5" class="collapse" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro ex
+                                                    odit iure ad fugiat laudantium. </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link collapsed" type="button"
+                                                        data-toggle="collapse" data-target="#collapse6"
+                                                        aria-expanded="false" aria-controls="collapseTwo">
+                                                        Where does it come from?
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="collapse6" class="collapse" data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    Hey You i am going to develope a full stck web project using
+                                                    SpringBoot And java
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- popup of new ticket starts  -->
+            <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Register New Ticket</h5>
+                            <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" th:action="@{newTicket}">
+                                <div class="mb-3">
+                                    <label for="topic" class="col-form-label">TOPIC:</label>
+                                    <input type="text" class="form-control" id="topic" required name="topic">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="query" class="col-form-label">QUERY:</label>
+                                    <textarea class="form-control" id="query" name="message" required></textarea>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary">Reset Form</button>
+                            <button type="submit" class="custom-btn btn-16">Submit</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- popup of new ticket ends -->
+
         </div>
     </div>
 
     <!-- Custom JavaScript -->
-    <script type="text/javascript" src="javascript/common.js"></script>
+    <script>
+        // Function to filter FAQ items based on user input
+        function filterFAQ() {
+            // Get the input value
+            var input = document.getElementById('searchInput').value.toLowerCase();
+
+            // Get all FAQ items
+            var faqItems = document.querySelectorAll('.card');
+
+            // Variables to keep track of the most matched item
+            var maxMatches = 0;
+            var maxMatchesItem = null;
+
+            // Loop through each FAQ item
+            faqItems.forEach(function (item) {
+                // Get the text content of both topic and description in lowercase
+                var topicText = item.querySelector('.btn-link').textContent.toLowerCase();
+                var descriptionText = item.querySelector('.card-body').textContent.toLowerCase();
+
+                // Check if the input matches the topic or description
+                var topicMatches = topicText.includes(input);
+                var descriptionMatches = descriptionText.includes(input);
+
+                // Calculate the number of matches
+                var totalMatches = (topicMatches ? 1 : 0) + (descriptionMatches ? 1 : 0);
+
+                // Check if the current item has more matches than the current max
+                if (totalMatches > maxMatches) {
+                    maxMatches = totalMatches;
+                    maxMatchesItem = item;
+                }
+
+                // Show or hide the FAQ item based on the input match
+                if (topicMatches || descriptionMatches) {
+                    // Highlight the matched text by wrapping it in <strong> tags
+                    item.querySelector('.btn-link').innerHTML = topicText.replace(new RegExp('(' + input + ')', 'gi'), '<strong>$1</strong>');
+                    item.querySelector('.card-body').innerHTML = descriptionText.replace(new RegExp('(' + input + ')', 'gi'), '<strong>$1</strong>');
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Open the most matched item
+            if (maxMatchesItem) {
+                $(maxMatchesItem.querySelector('.btn-link')).attr('aria-expanded', 'true');
+                $(maxMatchesItem.querySelector('.collapse')).addClass('show');
+            }
+        }
+
+        // Attach the filterFAQ function to the input's 'input' event
+        document.getElementById('searchInput').addEventListener('input', filterFAQ);
+
+
+    </script>
+
+
+    <script type="text/javascript" th:src="@{javascript/common.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 
 </html>

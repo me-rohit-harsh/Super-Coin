@@ -40,4 +40,16 @@ public class KYC {
 	@Column(name = "Verification_status")
 	private String status;
 
+	public KYC(String name, Integer age, String docNumber, String docType, byte[] frontImage, byte[] backImage) {
+		this.name = name;
+		this.age = age;
+		this.docNumber = docNumber;
+		this.docType = docType;
+		this.frontImage = frontImage;
+		this.backImage = backImage;
+	}
+
+	public KYC() {
+
+	}
 }

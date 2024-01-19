@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.supercoin.coin.model.Ticket;
 import com.supercoin.coin.model.KYC;
 import com.supercoin.coin.model.User;
 import com.supercoin.coin.repository.KycRepository;
 import com.supercoin.coin.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Controller
 public class KycController {
@@ -29,6 +31,7 @@ public class KycController {
 	private KycRepository kycRepository;
 
 	@GetMapping("/kyc")
+
 	public String kyc(HttpSession session, Model model) {
 
 		Integer userId = (Integer) session.getAttribute("userid");
@@ -39,6 +42,9 @@ public class KycController {
 			if (optionalUser.isPresent()) {
 				User user = optionalUser.get();
 				model.addAttribute("user", user);
+				KYC kyc = user.getKyc();
+				System.err.println(kyc);
+				model.addAttribute("kyc", kyc);
 				return "kyc";
 			}
 		}
@@ -58,9 +64,11 @@ public class KycController {
 			if (optionalUser.isPresent()) {
 				User user = optionalUser.get();
 
-				kyc.setName(user.getName());
-				// Save the new KYC object with other fields populated automatically
+				// Getting the kyc object of user
+				KYC userKyc = user.getKyc();
 
+				// Save the new KYC object with other fields populated automatically
+				userKyc.setName(user.getName());
 				if (!frontFile.isEmpty()) {
 					kyc.setFrontImage(frontFile.getBytes());
 				}
@@ -68,15 +76,19 @@ public class KycController {
 				if (!backFile.isEmpty()) {
 					kyc.setBackImage(backFile.getBytes());
 				}
-
-				kyc.setStatus("Pending");
-				kycRepository.save(kyc);
-				user.setKyc(kyc);
+				userKyc.setBackImage(kyc.getBackImage());
+				userKyc.setFrontImage(kyc.getFrontImage());
+				userKyc.setAge(kyc.getAge());
+				userKyc.setDocNumber(kyc.getDocNumber());
+				userKyc.setDocType(kyc.getDocType());
+				userKyc.setStatus("Pending");
+				kycRepository.save(userKyc);
+				user.setKyc(userKyc);
 				userRepository.save(user);
-				System.err.println(kyc);
+				System.err.println(userKyc);
 				// Set a success message and redirect
 				session.setAttribute("kycMsg",
-						"Success!! KYC form has been submitted! It will take some time to verify. Thank you :) ");
+						"KYC Submitted for id " + user.getId() + " Thank you :) ");
 				return "redirect:kyc?submitted";
 			}
 

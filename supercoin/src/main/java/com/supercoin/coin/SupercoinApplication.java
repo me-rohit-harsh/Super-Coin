@@ -9,7 +9,6 @@ public class SupercoinApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SupercoinApplication.class, args);
 		System.out.println("Jay Shree Ram");
-
 	}
 
 }
