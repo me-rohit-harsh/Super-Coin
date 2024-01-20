@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.supercoin.coin.model.User;
 import com.supercoin.coin.repository.UserRepository;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/login")
 public class loginController {
 
 	@Autowired
@@ -27,7 +29,7 @@ public class loginController {
 		super();
 	}
 
-	@GetMapping("/login")
+	@GetMapping
 	public String login(HttpSession session, Model model) {
 		// Check if session authentication is true and it has a valid user, then let
 		// them access their account dashboard
@@ -52,7 +54,7 @@ public class loginController {
 
 			User loggedInUser = userRepository.findByIdAndPassword(id, password);
 			if (loggedInUser != null) {
-				System.out.println(loggedInUser);
+				System.out.println("user logged in");
 				session.setAttribute("userid", loggedInUser.getId());
 				session.setAttribute("authentication", true);
 				return "redirect:/dashboard";

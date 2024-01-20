@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dashboard</title>
+	<!-- bootstrap -->
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+	<!-- External Libraries -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
+
+	<!-- Custom Styles -->
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<style type="text/css">
+		.image-preview {
+			max-width: 100%;
+			max-height: 100px;
+			margin-top: 10px;
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			border: 1px solid #dee2e6;
+			border-radius: 5px;
+		}
+
+		.form-control,
+		.form-control[readonly],
+		.form-select {
+			border: 1px solid #596280;
+			-webkit-border-radius: 2px;
+			-moz-border-radius: 2px;
+			border-radius: 2px;
+			font-size: .825rem;
+			background: #1A233A;
+			color: #bcd0f7;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="alert-container">
+		<div th:if="${param.submitted}">
+			<div class="alert alert-success alert-dismissible shadow-soft fade show" th:if="#{session.kycMsg!=nulll}">
+				<span class="alert-inner--icon"><span class="far fa-thumbs-up"></span></span>
+				<span class="alert-inner--text" th:text="${session.kycMsg}"></span>
+				<span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+			</div>
+		</div>
+	</div>
+	<div class='dashboard'>
+		<!-- Navigation -->
+		<div class="dashboard-nav">
+			<header>
+				<a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a> <a href="#" class="brand-logo"> <i
+						class="fas fa-anchor"></i> <span>BRAND</span>
+				</a>
+			</header>
+
+			<nav class="dashboard-nav-list">
+				<a th:href="@{dashboard}" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i>
+					Dashboard</a> <a th:href="@{profile}" class="dashboard-nav-item  "><i class="fas fa-user"></i>
+					Profile</a> <a th:href="@{income}" class="dashboard-nav-item"><i class="fas fa-chart-line"></i>
+					Income</a>
+
+				<!-- Users Dropdown -->
+				<div class='dashboard-nav-dropdown'>
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i class="fas fa-users"></i>
+						Users
+					</a>
+					<div class='dashboard-nav-dropdown-menu'>
+						<a th:href="@{directmember}" class="dashboard-nav-dropdown-item">
+							<i class="fas fa-code-branch"
+								style="transform: rotate(180deg) scaleX(-1); padding-right: 15px;"></i>
+							Direct Member
+						</a> <a th:href="@{teammember}" class="dashboard-nav-dropdown-item">
+							<i class="fas fa-solid fa-sitemap"></i> Team Member
+						</a>
+					</div>
+				</div>
+
+				<!-- Wallet Dropdown -->
+				<div class='dashboard-nav-dropdown'>
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i
+							class="fas fa-solid fa-wallet"></i> Wallet
+					</a>
+					<div class='dashboard-nav-dropdown-menu'>
+						<a th:href="@{profitwallet}" class="dashboard-nav-dropdown-item">
+							<i class="fas fa-solid fa-coins"></i> Profit Wallet
+						</a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item">
+							<i class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
+						</a>
+					</div>
+				</div>
+
+				<a href="#" class="dashboard-nav-item active"><i class="fas fa-file-upload"></i> KYC</a>
+
+				<!-- Media Section (Commented Out)
+                <div class='dashboard-nav-dropdown'>
+                    <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+                        <i class="fas fa-photo-video"></i> Media
+                    </a>
+                    <div class='dashboard-nav-dropdown-menu'>
+                        <a href="#" class="dashboard-nav-dropdown-item">All</a>
+                        <a href="#" class="dashboard-nav-dropdown-item">Recent</a>
+                        <a href="#" class="dashboard-nav-dropdown-item">Images</a>
+                        <a href="#" class="dashboard-nav-dropdown-item">Video</a>
+                    </div>
+                </div>
+                -->
+
+				<a th:href="@{support}" class="dashboard-nav-item"><i class="fas fa-solid fa-life-ring"></i> Support</a>
+				<div class="nav-item-divider"></div>
+				<a th:href="@{logout}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+			</nav>
+		</div>
+
+		<!-- Dashboard Application Content -->
+		<div class='dashboard-app'>
+
+
+
+
+
+			<header class='dashboard-toolbar'>
+				<a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+
+				<!-- Profile Section (Positioned to the Right) -->
+				<div class="profile-section">
+					<!-- Name and User ID Text -->
+					<div class="profile-text">
+						<p th:text="${user.name}"></p>
+						<p th:text="${user.id}"></p>
+					</div>
+
+					<!-- Circle Image Profile -->
+					<div class="profile-image">
+						<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile Image"
+							style="width: 50px; height: 50px; border-radius: 50%;">
+					</div>
+				</div>
+			</header>
+
+			<div class="container mt-3 ">
+				<div class="row ">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+						<div class="card h-100 p-5">
+
+							<form th:action="@{/kyc/kycUpdate}" method="post" enctype="multipart/form-data">
+								<div class="row">
+
+									<h2 class="text-center"> KYC From  <Span th:if="${kyc.status!=null}"
+											th:text="'[ '+${kyc.status}+' ]'"></Span></h2>
+
+									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="name" class="form-label">Name</label> <input type="text"
+											class="form-control" id="name" placeholder="Full Name" readonly="readonly"
+											th:value="${user.name}">
+									</div>
+
+									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="age" class="form-label">Age</label>
+
+										<input th:if="${kyc.age==null}" type="number" class="form-control" id="age"
+											placeholder="Age" required name="age">
+										<input th:if="${kyc.age!=null}" class="form-control" id="age" readonly
+											th:value="${kyc.age}">
+									</div>
+
+									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="documentType" class="form-label">
+											Document Type</label>
+										<select th:if="${kyc.docType==null}" class="form-select" id="documentType"
+											required name="docType">
+											<option value="" selected disabled>Select Document</option>
+											<option value="Aadhar Card">Aadhar Card</option>
+											<option value="Passport">Passport</option>
+											<option value="Pan Card">PAN Card</option>
+										</select>
+										<input th:if="${kyc.docType!=null}" name="docType" type="text"
+											class="form-control" id="documentType" placeholder="Document Type" readonly
+											th:value="${kyc.docType}">
+									</div>
+
+									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="documentNumber" class="form-label">Document
+											Number</label>
+
+										<input th:if="${kyc.docNumber==null}" name="docNumber" type="text"
+											class="form-control" id="documentNumber" placeholder="Document Number"
+											required>
+										<input th:if="${kyc.docNumber!=null}" name="docNumber" type="text"
+											class="form-control" id="documentNumber" placeholder="Document Number"
+											readonly th:value="${kyc.docNumber}">
+									</div>
+									<div th:if="${kyc.frontImage==null}"
+										class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="frontFile" class="form-label">Front Part of Document</label>
+										<input type="file" class="form-control" id="frontFile" name="frontFile"
+											accept="image/*"
+											onchange="validateFileSize('frontFile', 'frontPreview', 'frontFileSizeMessage', 1000)"
+											required>
+										<img id="frontPreview" class="image-preview">
+										<div id="frontFileSizeMessage" class="file-size-message"></div>
+									</div>
+
+									<div th:if="${kyc.backImage==null}"
+										class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+										<label for="backFile" class="form-label">Back Part of Document</label>
+										<input type="file" class="form-control" id="backFile" name="backFile"
+											accept="image/*"
+											onchange="validateFileSize('backFile', 'backPreview', 'backFileSizeMessage', 1000)"
+											required>
+										<img id="backPreview" class="image-preview">
+										<div id="backFileSizeMessage" class="file-size-message"></div>
+									</div>
+								</div>
+								<button type="submit" class="custom-btn btn-16"
+									th:if="${kyc.status==null}">Submit</button>
+							</form>
+
+						</div>
+
+					</div>
+				</div>
+				<!-- Bootstrap JS and Popper.js -->
+				<script
+					src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+				<script>
+					function previewImage(inputId, previewId) {
+						const input = document.getElementById(inputId);
+						const preview = document.getElementById(previewId);
+
+						if (input.files && input.files[0]) {
+							const reader = new FileReader();
+							reader.onload = function (e) {
+								preview.src = e.target.result;
+							};
+							reader.readAsDataURL(input.files[0]);
+						}
+					}
+					function validateFileSize(fileInputId, previewImageId, fileSizeMessageId, maxSizeInKB) {
+						var fileInput = document.getElementById(fileInputId);
+						var previewImage = document.getElementById(previewImageId);
+						var fileSizeMessage = document.getElementById(fileSizeMessageId);
+
+						if (fileInput.files.length > 0) {
+							var fileSizeInBytes = fileInput.files[0].size;
+							var fileSizeInKB = fileSizeInBytes / 1024;
+
+							if (fileSizeInKB > maxSizeInKB) {
+								fileSizeMessage.innerText = 'File size exceeds the maximum allowed size of ' + maxSizeInKB + ' KB.';
+								// Clear the file input
+								fileInput.value = '';
+								// Optionally, reset the preview image
+								if (previewImage) {
+									previewImage.src = '';
+								}
+							} else {
+								fileSizeMessage.innerText = ''; // Clear the message if within the limit
+							}
+						}
+					}
+				</script>
+			</div>
+		</div>
+	</div>
+	<!-- Custom JavaScript -->
+	<script type="text/javascript" th:src="@{javascript/common.js}"></script>
+
+</body>
+
+</html>

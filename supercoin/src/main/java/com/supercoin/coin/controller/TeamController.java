@@ -25,6 +25,12 @@ public class TeamController {
 	        User user = userRepository.findById(userId).orElse(null);
 	        if (user != null) {
 	            model.addAttribute("user", user);
+	            
+	            
+	            
+	            
+	            
+	            
 	            return "directmember";
 	        }
 	    }

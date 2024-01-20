@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.supercoin.coin.model.KYC;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
 @Controller
+@RequestMapping("/register")
 public class registerController {
 
 	@Autowired
@@ -30,7 +32,7 @@ public class registerController {
 	@Autowired
 	private KycRepository kycRepository;
 
-	@GetMapping("/register")
+	@GetMapping
 	@Transactional
 	public String createUserForm(HttpServletRequest request,
 			@RequestParam(value = "sponserId", required = false) Integer sponserId, HttpSession session, Model model) {

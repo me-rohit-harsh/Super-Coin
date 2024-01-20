@@ -1,0 +1,5 @@
+package com.supercoin.coin.model;
+
+public class Team {
+
+}

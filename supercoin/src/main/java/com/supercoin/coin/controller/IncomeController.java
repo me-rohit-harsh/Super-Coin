@@ -17,7 +17,7 @@ public class IncomeController {
 	private UserRepository userRepository;
 
 	@GetMapping("/income")
-	public String directTeam(HttpSession session, Model model) {
+	public String income(HttpSession session, Model model) {
 		
 		Integer userId = (Integer) session.getAttribute("userid");
 	    Boolean auth = (Boolean) session.getAttribute("authentication");

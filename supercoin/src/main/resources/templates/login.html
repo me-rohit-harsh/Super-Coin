@@ -56,7 +56,7 @@
 	<div class="animated bounceInDown">
 		<div class="container">
 			<span class="error animated tada" id="msg"></span>
-			<form name="form1" class="box" th:action="@{/authenticate}" th:object="${credential}" method="post">
+			<form name="form1" class="box" th:action="@{/login/authenticate}" th:object="${credential}" method="post">
 				<h4>Admin <span>Dashboard</span></h4>
 				<h5>Sign in to your account.</h5>
 				<input type="number" name="id" placeholder="User ID" required>
