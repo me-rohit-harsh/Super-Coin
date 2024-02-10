@@ -17,44 +17,42 @@ public class TeamController {
 
 	@GetMapping("/directmember")
 	public String directTeam(HttpSession session, Model model) {
-		
+
 		Integer userId = (Integer) session.getAttribute("userid");
-	    Boolean auth = (Boolean) session.getAttribute("authentication");
+		Boolean auth = (Boolean) session.getAttribute("authentication");
 
-	    if (userId != null && Boolean.TRUE.equals(auth)) {
-	        User user = userRepository.findById(userId).orElse(null);
-	        if (user != null) {
-	            model.addAttribute("user", user);
-	            
-	            
-	            
-	            
-	            
-	            
-	            return "directmember";
-	        }
-	    }
+		if (userId != null && Boolean.TRUE.equals(auth)) {
+			User user = userRepository.findById(userId).orElse(null);
+			if (user != null) {
+				model.addAttribute("user", user);
 
-	    session.setAttribute("access", false);
-	    return "redirect:login?accessDenied";
-		
+				model.addAttribute("directMember", userRepository.findAllBySponserId(userId));
+
+				return "directmember";
+			}
+		}
+
+		session.setAttribute("access", false);
+		return "redirect:login?accessDenied";
+
 	}
 
 	@GetMapping("/teammember")
 	public String teamMember(HttpSession session, Model model) {
 		Integer userId = (Integer) session.getAttribute("userid");
-	    Boolean auth = (Boolean) session.getAttribute("authentication");
+		Boolean auth = (Boolean) session.getAttribute("authentication");
 
-	    if (userId != null && Boolean.TRUE.equals(auth)) {
-	        User user = userRepository.findById(userId).orElse(null);
-	        if (user != null) {
-	            model.addAttribute("user", user);
-	            return "teammember";
-	        }
-	    }
+		if (userId != null && Boolean.TRUE.equals(auth)) {
+			User user = userRepository.findById(userId).orElse(null);
+			if (user != null) {
+				model.addAttribute("teamMember", userRepository.findUsersBelow(user.getId()));
+				model.addAttribute("user", user);
+				return "teammember";
+			}
+		}
 
-	    session.setAttribute("access", false);
-	    return "redirect:login?accessDenied";
-		
+		session.setAttribute("access", false);
+		return "redirect:login?accessDenied";
+
 	}
 }

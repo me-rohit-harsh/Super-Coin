@@ -1,6 +1,6 @@
 package com.supercoin.coin.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,10 +26,10 @@ public class User {
 
 	@Column(name = "Sponser_ID")
 	private Integer sponserId;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+	@JoinColumn(name = "team_id")
+	private Team team;
 
 	@Column(name = "Name")
 	private String name;
@@ -60,11 +60,11 @@ public class User {
 
 	@Column(name = "Reg_Date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	final private LocalDateTime regDate = LocalDateTime.now();
+	final private Date regDate = new Date();
 
 	@Column(name = "Inv_Date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime invDate = LocalDateTime.now();
+	private Date invDate = new Date();
 
 	@OneToOne(optional = true)
 	@JoinColumn(name = "kyc_id")

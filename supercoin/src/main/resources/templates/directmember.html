@@ -17,7 +17,21 @@
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/team.css}">
 
+    <style>
+        @media only screen and (max-width: 767px) {
+            td:nth-of-type(4):before {
+                content: "Mob. No.";
+            }
 
+            td:nth-of-type(5):before {
+                content: "Reg. Date";
+            }
+
+            td:nth-of-type(6):before {
+                content: "Activation Date";
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -115,90 +129,44 @@
                     <table id="example" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
+                                <th style="width: 5%;">S.No.</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>User Id</th>
+                                <th>Mob. No.</th>
+                                <th>Reg. Date</th>
+                                <th>Activation Date</th>
+                                <th>Account Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-
-                            <tr>
-                                <td>Sakura Yamamoto</td>
-                                <td>Support Engineer</td>
-                                <td>Tokyo</td>
-                                <td>37</td>
-                                <td>2009-08-19</td>
-                                <td>$139,575</td>
-                            </tr>
-                            <tr>
-                                <td>Thor Walton</td>
-                                <td>Developer</td>
-                                <td>New York</td>
-                                <td>61</td>
-                                <td>2013-08-11</td>
-                                <td>$98,540</td>
-                            </tr>
-                            <tr>
-                                <td>Finn Camacho</td>
-                                <td>Support Engineer</td>
-                                <td>San Francisco</td>
-                                <td>47</td>
-                                <td>2009-07-07</td>
-                                <td>$87,500</td>
-                            </tr>
-                            <tr>
-                                <td>Serge Baldwin</td>
-                                <td>Data Coordinator</td>
-                                <td>Singapore</td>
-                                <td>64</td>
-                                <td>2012-04-09</td>
-                                <td>$138,575</td>
-                            </tr>
-
-                            <tr>
-                                <td>Jonas Alexander</td>
-                                <td>Developer</td>
-                                <td>San Francisco</td>
-                                <td>30</td>
-                                <td>2010-07-14</td>
-                                <td>$86,500</td>
-                            </tr>
-                            <tr>
-                                <td>Shad Decker</td>
-                                <td>Regional Director</td>
-                                <td>Edinburgh</td>
-                                <td>51</td>
-                                <td>2008-11-13</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Michael Bruce</td>
-                                <td>Javascript Developer</td>
-                                <td>Singapore</td>
-                                <td>29</td>
-                                <td>2011-06-27</td>
-                                <td>$183,000</td>
-                            </tr>
-                            <tr>
-                                <td>Donna Snider</td>
-                                <td>Customer Support</td>
-                                <td>New York</td>
-                                <td>27</td>
-                                <td>2011-01-25</td>
-                                <td>$112,000</td>
+                        <tbody th:if="${#lists.size(directMember) > 0}">
+                            <tr th:each="member, iterStat : ${directMember}">
+                                <td th:text="${iterStat.count}"></td>
+                                <td th:text="${member.name}"></td>
+                                <td th:text="${member.id}"></td>
+                                <td th:text="${member.mob}"></td>
+                                <td th:text="${member.regDate}"></td>
+                                <td th:text="${member.invDate}"></td>
+                                <td th:text="${member.kyc.status != null ? member.kyc.status : 'Not Verified'}"></td>
                             </tr>
                         </tbody>
-                        <tfoot>
+                        <tbody th:if="${#lists.size(directMember) == 0}">
                             <tr>
+                                <td colspan="7">
+                                    <div class="text-center text-danger">
+                                        <p>NO DATA TO SHOW</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot th:if="${#lists.size(directMember) > 5}">
+                            <tr>
+                                <th>S.No.</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>User Id</th>
+                                <th>Mob. No.</th>
+                                <th>Reg. Date</th>
+                                <th>Activation Date</th>
+                                <th>Account Status</th>
                             </tr>
                         </tfoot>
                     </table>

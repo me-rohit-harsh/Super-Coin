@@ -33,7 +33,7 @@ function closeAlert(element) {
   }, 500);
 }
 
-//table js starts 
+//table js starts
 $(document).ready(function () {
   var table = $('#example').DataTable({
     // "columnDefs": [{
@@ -45,7 +45,7 @@ $(document).ready(function () {
         'previous': '<span class="fa fa-chevron-left"></span>',
         'next': '<span class="fa fa-chevron-right"></span>'
       },
-      "lengthMenu": '<button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button">Download Data</button>' +
+      "lengthMenu": '<span class="download-btn-container"></span>' + // Container for the button
         '<span> </span>' +
         ' <select class="form-control input-sm mb-2">' +
         '<option value="10">10</option>' +
@@ -55,9 +55,13 @@ $(document).ready(function () {
         '<option value="50">50</option>' +
         '<option value="-1">All</option>' +
         '</select> Total  Result'
-
-
     }
+
+  });
+
+  // Append the download button inside the container
+  $(document).ready(function () {
+    $('.download-btn-container').html('<button class=" text-light btn btn-outline-secondary" id="downloadBtn"> <i class="fas fa-solid fa-download "></i> Download Data</button>');
   });
 
   var columnsVisible = false;
@@ -80,3 +84,39 @@ $(document).ready(function () {
 
 });
 // table js ends
+
+
+
+// download button js starts here 
+
+
+// Event delegation for the download button
+$(document).on('click', '#downloadBtn', function () {
+  // Get the table element
+  var table = document.querySelector('table');
+
+  // Get the table data as CSV format
+  var csv = [];
+  var rows = table.querySelectorAll('tr');
+  for (var i = 0; i < rows.length; i++) {
+    var row = [],
+      cols = rows[i].querySelectorAll('td, th');
+    for (var j = 0; j < cols.length; j++) {
+      row.push(cols[j].innerText);
+    }
+    csv.push(row.join(','));
+  }
+  var csvContent = "data:text/csv;charset=utf-8," + csv.join("\n");
+
+  // Create a link element and trigger the download
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "table_data.csv");
+  document.body.appendChild(link);
+  link.click();
+});
+
+
+
+// download button js ends here 
