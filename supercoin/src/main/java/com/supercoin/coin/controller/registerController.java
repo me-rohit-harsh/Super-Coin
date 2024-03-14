@@ -3,6 +3,7 @@ package com.supercoin.coin.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import com.supercoin.coin.model.KYC;
 import com.supercoin.coin.model.User;
 import com.supercoin.coin.repository.KycRepository;
 import com.supercoin.coin.repository.UserRepository;
+import com.supercoin.coin.service.EmailService;
 import com.supercoin.coin.service.UserServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +33,8 @@ public class registerController {
 	private UserServiceImpl userServiceImpl;
 	@Autowired
 	private KycRepository kycRepository;
-
+	  @Autowired
+	    private EmailService emailService;
 	@GetMapping
 	@Transactional
 	public String createUserForm(HttpServletRequest request,
@@ -55,6 +58,18 @@ public class registerController {
 		user.setKyc(kyc);
 		kycRepository.save(kyc);
 		userRepository.save(user);
+		
+		  // Generate email content
+        String loginLink = "http://localhost:3310/login";
+        Integer userID = user.getId();
+        String Code = user.getCode();
+        Integer sponsorID = user.getSponserId();
+
+        String content = "Login link: <a href='" + loginLink + "'>" + loginLink + "</a><br>" +
+                        "User ID: " + userID + "<br>" +
+                        "Secret Code: " + secretCode + "<br>" +
+                        "Sponsor ID: " + sponsorID;
+		sendEmailAsync(user.getEmail(), "Welcome to Super Coin",content);
 		System.err.println(user);
 		session.setAttribute("userEmail", user.getEmail());
 		System.err.println(
@@ -63,5 +78,8 @@ public class registerController {
 		session.setAttribute("verification", true);
 		return "redirect:/login?success";
 	}
-
+	@Async
+    public void sendEmailAsync(String to, String subject, String body) {
+        emailService.sendEmail(to, subject, body);
+    }
 }
