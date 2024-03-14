@@ -1,5 +1,0 @@
-package com.supercoin.coin.repository;
-
-public interface team extends  {
-
-}
