@@ -67,7 +67,7 @@ public class registerController {
 
         String content = "Login link: <a href='" + loginLink + "'>" + loginLink + "</a><br>" +
                         "User ID: " + userID + "<br>" +
-                        "Secret Code: " + secretCode + "<br>" +
+                        "Secret Code: " + Code + "<br>" +
                         "Sponsor ID: " + sponsorID;
 		sendEmailAsync(user.getEmail(), "Welcome to Super Coin",content);
 		System.err.println(user);
