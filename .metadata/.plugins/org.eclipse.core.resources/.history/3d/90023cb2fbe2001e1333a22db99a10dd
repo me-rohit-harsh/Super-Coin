@@ -1,0 +1,58 @@
+# DataSource configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/coin1
+
+spring.datasource.username=root
+spring.datasource.password=rohit
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Hibernate configuration
+spring.jpa.hibernate.ddl-auto=update
+
+# Show SQL statements in the console (optional)
+spring.jpa.show-sql=true
+
+# Hibernate SQL Logging Level
+logging.level.org.hibernate.sql=DEBUG
+
+#Remove unnesecary logs
+logging.level.com.indianbank=warn
+spring.jpa.open-in-view=false
+logging.level.root=WARN
+
+spring.main.allow-bean-definition-overriding=true
+
+server.port=4324
+# Set maximum file size to 1 megabytes
+spring.servlet.multipart.max-file-size=1MB
+
+# Set maximum request size to 2 megabytes (including file and other parts)
+spring.servlet.multipart.max-request-size=2MB
+
+
+#For sending mail
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=paymentgatewayproject@gmail.com
+spring.mail.password=jbhsozifcuegjmpf
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.ssl.trust=smtp.gmail.com
+
+
+
+# Gmail IMAP properties(to read mail)
+mail.imap.host=imap.gmail.com
+mail.imap.port=993
+mail.imap.user=paymentgatewayproject@gmail.com
+mail.imap.password=jbhsozifcuegjmpf
+mail.store.protocol=imap
+mail.transport.protocol=smtp
+mail.debug=true
+
+
+
+
+
+
+
