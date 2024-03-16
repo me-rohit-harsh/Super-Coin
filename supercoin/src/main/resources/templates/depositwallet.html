@@ -26,29 +26,31 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/css/team.css}">
 	<!-- Custom Styles -->
 	<link rel="stylesheet" th:href="@{/css/common.css}">
-<style>
-	/* For WebKit-based browsers (Chrome, Safari) */
-/* Thin scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
+	<style>
+		/* For WebKit-based browsers (Chrome, Safari) */
+		/* Thin scrollbar */
+		::-webkit-scrollbar {
+			width: 6px;
+		}
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #6f6d6d; /* Light gray */
-}
+		/* Track */
+		::-webkit-scrollbar-track {
+			background: #6f6d6d;
+			/* Light gray */
+		}
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #464757; /* Dark gray */
-}
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			background: #464757;
+			/* Dark gray */
+		}
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #888; /* Black */
-}
-
-</style>
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #888;
+			/* Black */
+		}
+	</style>
 
 </head>
 
@@ -145,6 +147,25 @@
 					</div>
 				</div>
 			</header>
+			<div class="alert-container">
+				<div th:if="${success}">
+					<div class="alert alert-success alert-dismissible shadow-soft fade show">
+						<span class="alert-inner--icon"><span class="far fa-thumbs-up"></span></span>
+						<span class="alert-inner--text">Payment Success!!!</span>
+						<span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+					</div>
+				</div>
+
+				<!--After enterring wrong credentials this div will prompt-->
+				<div th:if="${error}">
+					<div class="alert alert-danger alert-dismissible shadow-soft fade show">
+						<span class="alert-inner--icon"><span class="fas  fa-thumbs-down"></span></span>
+						<span class="alert-inner--text">Payment Failed!!</span>
+						<span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+					</div>
+				</div>
+			</div>
+
 			<div class="container text-center mt-4">
 				<h1>Fund Management</h1>
 			</div>
@@ -156,7 +177,7 @@
 							<div class="row">
 								<div class="col-md-8 col-12">
 									<p><strong>Your Balance:</strong></p>
-									<h1>$ 0.00</h1>
+									<h1>$ <span th:text="${totalAmount}"></span></h1>
 									<p class="mb-0">You can make a new deposit of minimum $10</p>
 								</div>
 								<div
@@ -183,10 +204,7 @@
 							<div class="modal-body">
 
 
-								<form method="post" action="">
-
-
-
+								<form method="post" th:action="@{/save-utr}">
 									<div class="main-content  ">
 
 
@@ -200,8 +218,7 @@
 										<div class="form-group my-3">
 											<label for="paymentmethod" class="control-label">Payment
 												Method:</label>
-											<select name="paymentMethod" id="paymentMethod" class="form-control"
-												required>
+											<select name="method" id="paymentMethod" class="form-control" required>
 												<option value="" selected disabled>Select Payment Method</option>
 												<option value="Bank to Bank">Bank to Bank</option>
 												<option value="Paytm">Paytm</option>
@@ -336,18 +353,18 @@
 
 									<!-- Attachment button -->
 
-									<!-- <div class="form-group my-2">
-				                                <label for="exampleInputEmail1">Payment ScreenShot(Optional) </label>
-				                                <input type="file" class="form-control" name="file" accept="image/*"
-				                                    onchange="checkFileSize(this)">
-				                                <span class="text-danger" id="fileSizeMsg"></span>
-				                            </div> -->
 									<div class="form-group my-2">
+										<label for="exampleInputEmail1">Payment ScreenShot(Disbaled) </label>
+										<input disabled type="file" class="form-control" name="file" accept="image/*"
+											onchange="checkFileSize(this)">
+										<span class="text-danger" id="fileSizeMsg"></span>
+									</div>
+									<!--<div class="form-group my-2">
 
 										<label for="exampleInputEmail1">Email ID(Optional) </label>
 										<input type="email" id="emailId" name="email" class="form-control"
 											placeholder="Enter Email to recieve Confirmation mail">
-									</div>
+									</div>-->
 									<!-- Submit button -->
 									<button type="submit" class="btn btn-primary btn-lg btn-block">
 										<span>Add Fund</span>
@@ -358,7 +375,7 @@
 						</div>
 					</div>
 				</div>
-
+				</form>
 			</div>
 
 			<div class="container my-3">
@@ -371,39 +388,45 @@
 							<table id="history" class="table table-striped" style="width:100%">
 								<thead>
 									<tr>
-										<th style="width: 5%;">S.No.</th>
-										<th>Name</th>
-										<th>User Id</th>
-										<th>Ref. Id</th>
-										<th>Mob. No.</th>
-										<th>Reg. Date</th>
-
-										<th>Account Status</th>
+										<th>Innovice Id</th>
+										
+										<th>Amount</th>
+										<th>Status</th>
+										<th>Reference ID</th>
+										<th>Type</th>
+										<th>Method</th>
+										<th>Updated At</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="team, iterStat : ${teamMember}">
-										<td th:text="${iterStat.count}"></td>
-										<td th:text="${team.name}"></td>
-										<td th:text="${team.id}"></td>
-										<td th:text="${team.sponserId}"></td>
-										<td th:text="${team.mob}"></td>
-										<td th:text="${team.regDate}"></td>
-
-										<td th:text="${team.kyc.status != null ? team.kyc.status : 'Not Verified'}">
-										</td>
-									</tr>
+									
+									 <tr th:each="transaction : ${transactions}">
+                        <td th:text="${transaction.id}"></td>
+                        <td th:text="${transaction.ammount}"></td>
+                        <td>
+                            <span th:if="${transaction.status}" style="color: rgb(32, 184, 32);">Successful</span>
+                            <span th:unless="${transaction.status}" style="color: red;">Failed</span>
+                        </td>
+                        <td th:text="${transaction.refId}"></td>
+                        <td th:text="${transaction.type}"></td>
+                        <td th:text="${transaction.method}"></td>
+                        <td th:text="${transaction.updatedAt}"></td>
+                    </tr>
+									
 								</tbody>
-								<tfoot>
+								<tfoot th:if="${#lists.size(transactions) > 5}">
+
 									<tr>
-										<th>S.No.</th>
-										<th>Name</th>
-										<th>User Id</th>
-										<th>Ref. Id</th>
-										<th>Mob. No.</th>
-										<th>Reg. Date</th>
-										<th>Account Status</th>
+										<th>Innovice Id</th>
+										
+										<th>Amount</th>
+										<th>Status</th>
+										<th>Reference ID</th>
+										<th>Type</th>
+										<th>Method</th>
+										<th>Updated At</th>
 									</tr>
+
 								</tfoot>
 							</table>
 
@@ -530,7 +553,8 @@
 
 
 		});
-		// table js ends</script>
+		// table js ends
+	</script>
 	<!-- Data Table JS -->
 	<script src='https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js'></script>
 	<script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
