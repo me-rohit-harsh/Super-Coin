@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.supercoin.coin.model.Transaction;
+import com.supercoin.coin.model.Fund;
 import com.supercoin.coin.model.User;
-import com.supercoin.coin.repository.TransactionRepository;
+import com.supercoin.coin.repository.FundRepository;
 import com.supercoin.coin.repository.UserRepository;
 import com.supercoin.coin.service.EmailService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class TransactionController {
+public class FundController {
 	@Autowired
 	private EmailService emailService;
 	@Autowired
-	private TransactionRepository transactionRepository;
+	private FundRepository fundRepository;
 	@Autowired
 	private UserRepository userRepository;
 	@PostMapping("/save-utr")
@@ -30,8 +30,8 @@ public class TransactionController {
 		session.setAttribute("SubmitAuth", true);
 		try {
 			// Check if the UTR already exists in the database
-			Transaction existingTransaction = transactionRepository.findByRefId(upiRefNo);
-			if (existingTransaction != null) {
+			Fund existingFund = fundRepository.findByRefId(upiRefNo);
+			if (existingFund != null) {
 				// UTR already exists, handle accordingly (e.g., show error message)
 				// UTR was not found, redirect to error page
 				String userEmail = (String) session.getAttribute("userEmail");
@@ -45,19 +45,19 @@ public class TransactionController {
 			}
 
 			// Create a new User object
-			Transaction newTransaction = new Transaction();
-			session.setAttribute("newTransaction", newTransaction);
-			newTransaction.setRefId(upiRefNo);
-			newTransaction.setStatus(false);
-			newTransaction.setAmmount((int) ammount.floatValue());
+			Fund newFund = new Fund();
+			session.setAttribute("newFund", newFund);
+			newFund.setRefId(upiRefNo);
+			newFund.setStatus(false);
+			newFund.setAmmount((int) ammount.floatValue());
 			Integer userId = (Integer) session.getAttribute("userid");
 			User user = userRepository.findById(userId).orElse(null);
-			newTransaction.setUserId(userId);
-			newTransaction.setMethod(method);
+			newFund.setUserId(userId);
+			newFund.setMethod(method);
 			// Save the new User object to the database
-			transactionRepository.save(newTransaction);
-			session.setAttribute("submittedUtr", newTransaction.getRefId());
-			session.setAttribute("moneySent", newTransaction.getAmmount());
+			fundRepository.save(newFund);
+			session.setAttribute("submittedUtr", newFund.getRefId());
+			session.setAttribute("moneySent", newFund.getAmmount());
 			session.setAttribute("userEmail", user.getEmail());
 			// Redirect to the fetchEmail page to check for valid UTR
 			return "redirect:/fetchEmail";

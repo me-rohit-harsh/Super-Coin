@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.supercoin.coin.model.Transaction;
-import com.supercoin.coin.repository.TransactionRepository;
+import com.supercoin.coin.model.Fund;
+import com.supercoin.coin.repository.FundRepository;
 import com.supercoin.coin.service.EmailService;
 
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +18,7 @@ public class EmailController {
 	@Autowired
     private EmailService emailService;
 	  @Autowired
-	    private TransactionRepository transactionRepository;
+	    private FundRepository fundRepository;
 	 @GetMapping("/fetchEmail")
 	    public String fetchEmails(HttpSession session, RedirectAttributes redirectAttributes) {
 
@@ -34,10 +34,10 @@ public class EmailController {
 	            // Set the status based on the result
 	            if (utrFound) {
 	                // UTR was found, set status accordingly
-	                Transaction newTransaction = (Transaction) session.getAttribute("newTransaction");
-	                newTransaction.setStatus(true);
-	                newTransaction.setType("Credited");
-	                transactionRepository.save(newTransaction);
+	                Fund newFund = (Fund) session.getAttribute("newFund");
+	                newFund.setStatus(true);
+	                newFund.setType("Credited");
+	                fundRepository.save(newFund);
 	                // Call the sendEmail method asynchronously
 	                String userEmail = (String) session.getAttribute("userEmail");
 	                sendEmailAsync(userEmail, "Payment Confirmation - Welcome to Oxyclouds",

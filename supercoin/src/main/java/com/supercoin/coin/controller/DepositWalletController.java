@@ -6,9 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.supercoin.coin.model.User;
-import com.supercoin.coin.repository.TransactionRepository;
+import com.supercoin.coin.repository.FundRepository;
 import com.supercoin.coin.repository.UserRepository;
-import com.supercoin.coin.service.TransactionService;
+import com.supercoin.coin.service.FundService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -18,10 +18,10 @@ public class DepositWalletController {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private TransactionRepository transactionRepository;
+	private FundRepository fundRepository;
 	
 	@Autowired
-	private TransactionService transactionService;
+	private FundService fundService;
 
 	@GetMapping("/depositwallet")
 	public String directTeam(HttpSession session, Model model) {
@@ -33,8 +33,8 @@ public class DepositWalletController {
 	        User user = userRepository.findById(userId).orElse(null);
 	        if (user != null) {
 	            model.addAttribute("user", user);
-	           model.addAttribute("totalAmount", transactionService.calculateTotalAmount(userId));
-	            model.addAttribute("transactions", transactionRepository.findByUserId(userId));
+	           model.addAttribute("totalAmount", fundService.calculateTotalAmount(userId));
+	            model.addAttribute("funds", fundRepository.findByUserId(userId));
 	            return "depositwallet";
 	        }
 	    }
