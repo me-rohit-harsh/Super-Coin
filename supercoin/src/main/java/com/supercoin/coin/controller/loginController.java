@@ -49,6 +49,8 @@ public class loginController {
 	@PostMapping("authenticate")
 	public String login(HttpServletRequest request, HttpSession session) {
 		try {
+			session.removeAttribute("userid");
+			session.removeAttribute("authentication");
 			Integer id = Integer.parseInt(request.getParameter("id"));
 			String password = request.getParameter("password");
 
