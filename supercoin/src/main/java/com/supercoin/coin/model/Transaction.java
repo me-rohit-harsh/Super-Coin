@@ -1,5 +1,7 @@
 package com.supercoin.coin.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,9 +15,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Data;
 
 @Entity
 @Table(name = "daily_transactions")
+@Data
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +50,11 @@ public class Transaction {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
+
+    public void setCrAmount(BigDecimal currentAmount) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCrAmount'");
+    }
 
     // Constructors, getters, and setters
 }

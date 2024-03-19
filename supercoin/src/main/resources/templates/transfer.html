@@ -76,6 +76,8 @@
                             <i class="fas fa-solid fa-coins"></i> Profit Wallet
                         </a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item">
                             <i class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
+                        </a><a th:href="@{withdrwalstatus}" class="dashboard-nav-dropdown-item">
+                            <i class="fab fa-brands fa-readme"></i> Transaction Brief
                         </a>
                     </div>
                 </div>
@@ -122,12 +124,101 @@
                     </div>
                 </div>
             </header>
-            <div class="container p-3" style="overflow: hidden; text-align: center;">
-                <h1>Transfer Page</h1>
-               
+            <div class="container p-3" style="overflow: hidden; ">
+                <h1 style="text-align: center;">P2P Transfer</h1>
+
+                <div class="card shadow">
+                    <p class="card-header lead">Please enter the recipient's ID to initiate the withdrawal process. Once verified, the recipient's name will be
+                    displayed, and you can proceed with the transaction.</p>
+                    <div class="card-body p-lg-3">
+                        <form th:action="@{findUserbyId}" method="post">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="beneficiary-user-id">Beneficiary User ID:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">@</span>
+                                        </div>
+                                        <input type="text" id="beneficiary-user-id" class="form-control" name="userId"
+                                            required pattern="[0-9]+" title="Please enter only numeric values"
+                                            th:value="${benificiaryId}" th:disabled="${benificiaryId != null}"
+                                            placeholder="Enter the user id">
+                                        <!-- Add the Verify button here -->
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-success" id="verify-button"
+                                                th:disabled="${beneficiaryName != null}">
+                                                <span th:if="${beneficiaryName == null}">Verify</span> <span
+                                                    th:if="${beneficiaryName != null}">Verified</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="beneficiary-name">Beneficiary Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">#</span>
+                                        </div>
+                                        <input type="text" id="beneficiary-name" class="form-control"
+                                            disabled="disabled" name="beneficiaryName" th:value="${beneficiaryName}"
+                                            th:disabled="disabled"
+                                            placeholder="Automatic name retrieval upon verification">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-method">Account Balance:</label>
+                                    <input type="text" class="form-control" readonly disabled placeholder="0.00">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-method">Enter Amount:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Amount to Transfer"
+                                        pattern="[0-9]+" title="Please enter only numeric values">
+                                </div>
+                                <div class="mb-3 form-outline">
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="window.location.href='/index'">Cancel</button>
+                                    <button type="submit" id="withdraw-button" class="custom-btn btn-16">Transfer</button>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-md-6">
+                                            <form th:action="@{/sender}" method="post">
+                                               
+                                                <div class="mb-3 form-outline">
+                                                    <label for="withdrawal-method">Admin Charge(5%):</label>
+                                                    <input type="text" class="form-control" readonly disabled placeholder="0.00">
+                                                </div>
+                                               
+                                               
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3 form-outline">
+                                                <label for="withdrawal-amount">Net Amount:</label>
+                                                <input type="text" class="form-control" id="withdrawal-amount" placeholder="0.00" name="balance"
+                                                    required disabled readonly>
+                                          
+                                                </div>
+                                               
+                                        </div> -->
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
+
         </div>
+
     </div>
 
 

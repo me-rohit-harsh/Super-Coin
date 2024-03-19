@@ -12,7 +12,8 @@
 	<!-- External Libraries -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
-
+	<!-- font-awesome icon css  -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 	<!-- Custom Styles -->
 	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
 
@@ -61,6 +62,9 @@
 							<i class="fas fa-solid fa-coins"></i> Profit Wallet
 						</a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item">
 							<i class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
+						</a>
+						<a th:href="@{withdrwalstatus}" class="dashboard-nav-dropdown-item">
+							<i class="fab fa-brands fa-readme"></i> Transaction Brief
 						</a>
 					</div>
 				</div>
@@ -126,8 +130,8 @@
 							<h1>Welcome to Dashboard</h1>
 						</div>
 						<div class='card-body'>
-							<h3>Hello Rohit Sir,</h3>
-							<p>Good Morning, welcome to your awesome dashboard!</p>
+							<h3 th:text="'Hello ' + ${user.name}"></h3>
+							<p>Welcome to your dashboard!</p>
 
 						</div>
 					</div>
@@ -135,11 +139,11 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-									<i class="uil-envelope-shield fs-2 text-center bg-primary rounded-circle"></i>
+									<i class="fas fa-solid fa-coins fs-2 text-center bg-primary rounded-circle"></i>
 									<div class="ms-3">
 										<div class="d-flex align-items-center">
-											<h3 class="mb-0">1,245</h3>
-											<span class="d-block ms-2">Emails</span>
+											<h3 class="mb-0" th:text="${user.deposite}"></h3>
+											<span class="d-block ms-2">Stacked Coin</span>
 										</div>
 										<p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
 									</div>
@@ -147,11 +151,12 @@
 							</div>
 							<div class="col-lg-4">
 								<div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-									<i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
+
+									<i class="fas fa-solid fa-money-bill fs-2 text-center bg-danger rounded-circle"></i>
 									<div class="ms-3">
 										<div class="d-flex align-items-center">
-											<h3 class="mb-0">34</h3>
-											<span class="d-block ms-2">Projects</span>
+											<h3 class="mb-0" th:text="${user.coin}"></h3>
+											<span class="d-block ms-2">Estimated Profit</span>
 										</div>
 										<p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
 									</div>
@@ -162,8 +167,8 @@
 									<i class="uil-users-alt fs-2 text-center bg-success rounded-circle"></i>
 									<div class="ms-3">
 										<div class="d-flex align-items-center">
-											<h3 class="mb-0">5,245</h3>
-											<span class="d-block ms-2">Users</span>
+											<h3 class="mb-0">45</h3>
+											<span class="d-block ms-2">Your Team</span>
 										</div>
 										<p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
 									</div>
@@ -178,30 +183,30 @@
 						<div class="row">
 							<div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
 								<div class="box bg-primary p-3">
-									<i class="uil-eye"></i>
-									<h3>5,154</h3>
-									<p class="lead">Page views</p>
+									<i class="fas fa-solid fa-coins"></i>
+									<h3 th:text="${user.deposite}"></h3>
+									<p class="lead">Stacked Coins</p>
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
 								<div class="box bg-danger p-3">
-									<i class="uil-user"></i>
-									<h3>245</h3>
-									<p class="lead">User registered</p>
+									<i class="fas fa-solid fa-money-bill"></i>
+									<h3 th:text="${user.coin}"></h3>
+									<p class="lead">Estimated Profit</p>
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-3 mb-4 mb-md-0">
 								<div class="box bg-warning p-3">
 									<i class="uil-shopping-cart"></i>
-									<h3>5,154</h3>
-									<p class="lead">Product sales</p>
+									<h3>100</h3>
+									<p class="lead">Total Profit</p>
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-3">
 								<div class="box bg-success p-3">
 									<i class="uil-feedback"></i>
-									<h3>5,154</h3>
-									<p class="lead">Transactions</p>
+									<h3>5,00</h3>
+									<p class="lead">Withdrawal</p>
 								</div>
 							</div>
 						</div>
@@ -258,23 +263,27 @@
 											<div class="social-icons">
 												<a onclick="copyToClipboard()" class="btn btn-social-icon mb-1"><i
 														class="fas fa-regular fa-copy fa-2x"></i></a>
-												<a id="facebookShareLink" target="_blank" href="#" class="btn btn-social-icon mb-1"> <i
+												<a id="facebookShareLink" target="_blank" href="#"
+													class="btn btn-social-icon mb-1"> <i
 														class="fab fa-brands fa-facebook fa-2x"></i>
 												</a>
-												<a id="whatsappShareLink" target="_blank" href="#" class="btn btn-social-icon mb-1"> <i
+												<a id="whatsappShareLink" target="_blank" href="#"
+													class="btn btn-social-icon mb-1"> <i
 														class="fab fa-brands fa-whatsapp fa-2x fa-square-whatsapp fa-solid"></i>
 												</a>
-												<a id="mailtoLink" target="_blank" href="#" class="btn btn-social-icon mb-1 btn-outline-envelope">
+												<a id="mailtoLink" target="_blank" href="#"
+													class="btn btn-social-icon mb-1 btn-outline-envelope">
 													<span class="fa fa-envelope font-medium-4 fa-2x"></span>
 												</a>
 											</div>
-											
+
 											<p>This is your referral link</p>
 											<div class="input-group">
-												<input id="refLinkInput" name="ctl00$ContentPlaceHolder1$txtRefLink" type="text"
-													th:value="'localhost:3310/register?sponserId=' + ${user.id}" readonly="readonly"
-													class="form-control" onclick="CopyRefLink();">
-												
+												<input id="refLinkInput" name="ctl00$ContentPlaceHolder1$txtRefLink"
+													type="text"
+													th:value="'localhost:3310/register?sponserId=' + ${user.id}"
+													readonly="readonly" class="form-control" onclick="CopyRefLink();">
+
 											</div>
 											<div id="copyNotification" style="display: none;">
 												<div class="notification">
@@ -284,8 +293,9 @@
 											</div>
 											<iframe
 												src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230265.5697292737!2d84.97822444482861!3d25.608254696378427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f29937c52d4f05%3A0x831a0e05f607b270!2sPatna%2C%20Bihar!5e0!3m2!1sen!2sin!4v1705110706162!5m2!1sen!2sin"
-												width="100%" height="150" style="border: 0;" allowfullscreen="" loading="lazy"
-												referrerpolicy="no-referrer-when-downgrade" class="mt-2"></iframe>
+												width="100%" height="150" style="border: 0;" allowfullscreen=""
+												loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+												class="mt-2"></iframe>
 										</div>
 									</div>
 								</div>

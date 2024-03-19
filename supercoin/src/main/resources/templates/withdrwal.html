@@ -45,44 +45,47 @@
                 </a>
             </header>
 
-        <nav class="dashboard-nav-list">
-            <a th:href="@{dashboard}" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i>
-                Dashboard</a> <a th:href="@{profile}" class="dashboard-nav-item"><i class="fas fa-user"></i>
-                Profile</a> <a th:href="@{income}" class="dashboard-nav-item"><i class="fas fa-chart-line"></i>
-                Income</a>
-        
-            <!-- Users Dropdown -->
-            <div class='dashboard-nav-dropdown '>
-                <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle ">
-                    <i class="fas fa-users"></i> Users
-                </a>
-                <div class='dashboard-nav-dropdown-menu '>
-                    <a href="#" class="dashboard-nav-dropdown-item "> <i class="fas fa-code-branch"
-                            style="transform: rotate(180deg) scaleX(-1); padding-right: 15px;"></i>
-                        Direct Member
-                    </a> <a th:href="@{teammember}" class="dashboard-nav-dropdown-item">
-                        <i class="fas fa-solid fa-sitemap"></i> Team Member
+            <nav class="dashboard-nav-list">
+                <a th:href="@{dashboard}" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i>
+                    Dashboard</a> <a th:href="@{profile}" class="dashboard-nav-item"><i class="fas fa-user"></i>
+                    Profile</a> <a th:href="@{income}" class="dashboard-nav-item"><i class="fas fa-chart-line"></i>
+                    Income</a>
+
+                <!-- Users Dropdown -->
+                <div class='dashboard-nav-dropdown '>
+                    <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle ">
+                        <i class="fas fa-users"></i> Users
                     </a>
+                    <div class='dashboard-nav-dropdown-menu '>
+                        <a href="#" class="dashboard-nav-dropdown-item "> <i class="fas fa-code-branch"
+                                style="transform: rotate(180deg) scaleX(-1); padding-right: 15px;"></i>
+                            Direct Member
+                        </a> <a th:href="@{teammember}" class="dashboard-nav-dropdown-item">
+                            <i class="fas fa-solid fa-sitemap"></i> Team Member
+                        </a>
+                    </div>
                 </div>
-            </div>
-        
-            <!-- Wallet Dropdown -->
-            <div class='dashboard-nav-dropdown active'>
-                <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i class="fas fa-solid fa-wallet"></i>
-                    Wallet
-                </a>
-                <div class='dashboard-nav-dropdown-menu active'>
-                    <a th:href="@{profitwallet}" class="dashboard-nav-dropdown-item active">
-                        <i class="fas fa-solid fa-coins"></i> Profit Wallet
-                    </a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item">
-                        <i class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
+
+                <!-- Wallet Dropdown -->
+                <div class='dashboard-nav-dropdown active'>
+                    <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i
+                            class="fas fa-solid fa-wallet"></i>
+                        Wallet
                     </a>
+                    <div class='dashboard-nav-dropdown-menu active'>
+                        <a th:href="@{profitwallet}" class="dashboard-nav-dropdown-item active">
+                            <i class="fas fa-solid fa-coins"></i> Profit Wallet
+                        </a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item">
+                            <i class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
+                        </a><a th:href="@{withdrwalstatus}" class="dashboard-nav-dropdown-item">
+                            <i class="fab fa-brands fa-readme"></i> Transaction Brief
+                        </a>
+                    </div>
                 </div>
-            </div>
-        
-            <a th:href="@{kyc}" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> KYC</a>
-        
-            <!-- Media Section (Commented Out)
+
+                <a th:href="@{kyc}" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> KYC</a>
+
+                <!-- Media Section (Commented Out)
                         <div class='dashboard-nav-dropdown'>
                             <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
                                 <i class="fas fa-photo-video"></i> Media
@@ -95,11 +98,11 @@
                             </div>
                         </div>
                         -->
-        
-            <a th:href="@{support}" class="dashboard-nav-item"><i class="fas fa-solid fa-life-ring"></i> Support</a>
-            <div class="nav-item-divider"></div>
-            <a th:href="@{logout}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </nav>
+
+                <a th:href="@{support}" class="dashboard-nav-item"><i class="fas fa-solid fa-life-ring"></i> Support</a>
+                <div class="nav-item-divider"></div>
+                <a th:href="@{logout}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
         </div>
 
         <!-- Dashboard Application Content -->
@@ -122,14 +125,101 @@
                     </div>
                 </div>
             </header>
-            <div class="container p-3" style="overflow: hidden;">
-                <h1>Withdrawal Page</h1>
-                <main class="cd__main  ">
+            <div class="container p-3" style="overflow: hidden; ">
+                <!-- <h1 style="text-align: center;">Make Withdrawal</h1> -->
 
+                <div class="card shadow">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <p class="lead m-0">To withdraw funds into your own account, please enter the amount you wish to withdraw below.
+                            Once submitted, the requested amount will be deducted from your account balance.</p>
+                        <button class="btn btn-link" id="toggleCardBody">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="card-body p-lg-3" style="display: none;">
+                        <form th:action="@{findUserbyId}" method="post">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="beneficiary-user-id">User ID:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">#</span>
+                                        </div>
+                                        <input type="text" id="beneficiary-user-id" class="form-control" name="userId"
+                                            required th:value="${benificiaryId}" th:disabled="${benificiaryId != null}"
+                                            placeholder="User Id" readonly th::disabled="disabled" disabled="disabled">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="beneficiary-name">User Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">#</span>
+                                        </div>
+                                        <input type="text" id="beneficiary-name" class="form-control"
+                                            disabled="disabled" name="beneficiaryName" th:value="${beneficiaryName}"
+                                            th:disabled="disabled" placeholder="Full Name" readonly required>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-method">Account Balance:</label>
+                                    <input type="text" class="form-control" readonly disabled placeholder="0.00">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-method">Enter Amount:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Amount to Transfer"
+                                        pattern="[0-9]+" title="Please enter only numeric values">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <form th:action="@{/sender}" method="post">
+
+                                    <div class="mb-3 form-outline">
+                                        <label for="withdrawal-method">Admin Charge(5%):</label>
+                                        <input type="text" class="form-control" readonly disabled placeholder="0.00">
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-amount">Net Amount:</label>
+                                    <input type="text" class="form-control" id="withdrawal-amount" placeholder="0.00"
+                                        name="balance" required disabled readonly>
+
+                                </div>
+                                <div class="mb-3 form-outline">
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="window.location.href='/index'">Cancel</button>
+                                    <button type="submit" id="withdraw-button" class="custom-btn btn-16">Withdraw</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class=" container p-3" style="overflow: hidden;">
+
+                <main class="cd__main  card shadow p-2">
+                    <p class="lead">Withdrawal Report</p>
                     <table id="example" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width: 5%;">S.No.</th>
+                                <th>S.No.</th>
                                 <th>Name</th>
                                 <th>User Id</th>
                                 <th>Mob. No.</th>
@@ -177,6 +267,14 @@
         </div>
     </div>
 
+<script>
+    $(document).ready(function () {
+        $("#toggleCardBody").click(function () {
+            $(".card-body").slideToggle("slow");
+            $(this).find("i").toggleClass("fa-chevron-down fa-chevron-up");
+        });
+    });
+</script>
 
 
     <!-- Custom JavaScript -->

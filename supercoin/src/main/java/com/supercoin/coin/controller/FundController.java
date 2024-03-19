@@ -35,7 +35,7 @@ public class FundController {
 				// UTR already exists, handle accordingly (e.g., show error message)
 				// UTR was not found, redirect to error page
 				String userEmail = (String) session.getAttribute("userEmail");
-				emailService.sendEmail(userEmail, "Payment Rejection - Oxyclouds",
+				emailService.sendEmail(userEmail, "Payment Rejection - Super Coin",
 						"Your payment has already been processed.");
 				System.out.println("Already Redeemed");
 				session.setAttribute("SubmitAuthError", true);
