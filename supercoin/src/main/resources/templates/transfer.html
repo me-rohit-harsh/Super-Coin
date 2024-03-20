@@ -35,7 +35,23 @@
 </head>
 
 <body>
-
+    <div class="alert-container">
+        <div th:if="${successMessage}">
+            <div class="alert alert-success alert-dismissible shadow-soft fade show">
+                <span class="alert-inner--icon"><span class="far fa-thumbs-up"></span></span>
+                <span class="alert-inner--text" th:text="${successMessage}"></span>
+                <span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+            </div>
+        </div>
+        <!--After enterring wrong credentials this div will prompt-->
+        <div th:if="${errorMessage}">
+            <div class="alert alert-danger alert-dismissible shadow-soft fade show">
+                <span class="alert-inner--icon"><span class="fas  fa-thumbs-down"></span></span>
+                <span class="alert-inner--text" th:text="${errorMessage}"></span>
+                <span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+            </div>
+        </div>
+    </div>
     <div class='dashboard'>
         <!-- Navigation -->
         <div class="dashboard-nav">
@@ -128,10 +144,12 @@
                 <h1 style="text-align: center;">P2P Transfer</h1>
 
                 <div class="card shadow">
-                    <p class="card-header lead">Please enter the recipient's ID to initiate the withdrawal process. Once verified, the recipient's name will be
-                    displayed, and you can proceed with the transaction.</p>
-                    <div class="card-body p-lg-3">
-                        <form th:action="@{findUserbyId}" method="post">
+                    <p class="card-header lead">Please enter the recipient's ID to initiate the withdrawal process. Once
+                        verified, the recipient's name will be
+                        displayed, and you can proceed with the transaction.</p>
+                    <form th:action="@{maketransfer}" method="post">
+                        <div class="card-body p-lg-3">
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="beneficiary-user-id">Beneficiary User ID:</label>
@@ -145,10 +163,8 @@
                                             placeholder="Enter the user id">
                                         <!-- Add the Verify button here -->
                                         <div class="input-group-append">
-                                            <button type="submit" class="btn btn-success" id="verify-button"
-                                                th:disabled="${beneficiaryName != null}">
-                                                <span th:if="${beneficiaryName == null}">Verify</span> <span
-                                                    th:if="${beneficiaryName != null}">Verified</span>
+                                            <button type="button" class="btn btn-success" id="verify-button">
+                                                Verify
                                             </button>
                                         </div>
                                     </div>
@@ -165,32 +181,43 @@
                                             th:disabled="disabled"
                                             placeholder="Automatic name retrieval upon verification">
                                     </div>
-
-                                </div>
-                            </div>
-                        </form>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3 form-outline">
-                                    <label for="withdrawal-method">Account Balance:</label>
-                                    <input type="text" class="form-control" readonly disabled placeholder="0.00">
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3 form-outline">
-                                    <label for="withdrawal-method">Enter Amount:</label>
-                                    <input type="text" class="form-control" placeholder="Enter Amount to Transfer"
-                                        pattern="[0-9]+" title="Please enter only numeric values">
-                                </div>
-                                <div class="mb-3 form-outline">
-                                    <button type="button" class="btn btn-secondary"
-                                        onclick="window.location.href='/index'">Cancel</button>
-                                    <button type="submit" id="withdraw-button" class="custom-btn btn-16">Transfer</button>
                                 </div>
                             </div>
 
-                            <!-- <div class="col-md-6">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3 form-outline">
+                                        <label for="withdrawal-method">Account Balance:</label>
+                                        <input type="text" class="form-control" readonly disabled placeholder="0.00"
+                                            th:value="${user.deposite}">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 form-outline">
+                                        <label for="withdrawal-method">Enter Amount:</label>
+                                        <input id="transfer-amount" type="text" class="form-control" placeholder="Enter Amount to Transfer"
+                                            required pattern="[0-9]+" title="Please enter only numeric values"
+                                            name="amount" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 form-outline">
+                                        <label for="withdrawal-method">Security Code*</label>
+                                        <input id="security-code" type="text" class="form-control" placeholder="Enter Security code"
+                                            required name="securityCode" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <div class="form-outline">
+                                        <button type="button" class="btn btn-secondary"
+                                            onclick="window.location.href='/dashboard'">Cancel</button>
+                                        <button type="submit" id="withdraw-button"
+                                            class="custom-btn btn-16" disabled>Transfer</button>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-6">
                                             <form th:action="@{/sender}" method="post">
                                                
                                                 <div class="mb-3 form-outline">
@@ -210,8 +237,9 @@
                                                 </div>
                                                
                                         </div> -->
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -222,7 +250,48 @@
     </div>
 
 
+    <script>
+        document.getElementById('verify-button').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default form submission
 
+            var userId = document.getElementById('beneficiary-user-id').value;
+            // console.log(userId);
+            // Send AJAX POST request to fetch user by ID
+            fetch('/findBeneficiaryById', {
+                method: 'POST',
+                body: userId.toString(), // Directly sending the userId
+                headers: {
+                    'Content-Type': 'text/plain' // Using text/plain content type since it's just a single integer
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Update UI based on server response
+                    if (data.success) {
+                        document.getElementById('beneficiary-name').value = data.user.name;
+                        document.getElementById('verify-button').innerHTML = 'Verified';
+                        // Disable the user ID field and the verify button
+                        document.getElementById('beneficiary-user-id').readOnly = true;
+                        document.getElementById('verify-button').disabled = true;
+                         // Enable the transfer button
+                        document.getElementById('withdraw-button').disabled = false;
+                        document.getElementById('security-code').disabled = false;
+                        document.getElementById('transfer-amount').disabled = false;
+                    } else {
+                        alert('No user found with the entered User ID');
+                         // Enable the transfer button
+                                     document.getElementById('beneficiary-user-id').value = ''; // Clear the user ID input field
+
+                        document.getElementById('withdraw-button').disabled = true;
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while processing the request');
+                });
+        });
+    </script>
     <!-- Custom JavaScript -->
     <script type="text/javascript" th:src="@{javascript/common.js}"></script>
 </body>

@@ -35,7 +35,23 @@
 </head>
 
 <body>
-
+<div class="alert-container">
+    <div th:if="${successMessage}">
+        <div class="alert alert-success alert-dismissible shadow-soft fade show">
+            <span class="alert-inner--icon"><span class="far fa-thumbs-up"></span></span>
+            <span class="alert-inner--text" th:text="${successMessage}"></span>
+            <span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+        </div>
+    </div>
+    <!--After enterring wrong credentials this div will prompt-->
+    <div th:if="${errorMessage}">
+        <div class="alert alert-danger alert-dismissible shadow-soft fade show">
+            <span class="alert-inner--icon"><span class="fas  fa-thumbs-down"></span></span>
+            <span class="alert-inner--text" th:text="${errorMessage}"></span>
+            <span class="close" aria-label="Close" onclick="closeAlert(this)">&times;</span>
+        </div>
+    </div>
+</div>
     <div class='dashboard'>
         <!-- Navigation -->
         <div class="dashboard-nav">
@@ -107,6 +123,7 @@
 
         <!-- Dashboard Application Content -->
         <div class='dashboard-app'>
+               
             <header class='dashboard-toolbar'>
                 <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
 
@@ -137,7 +154,7 @@
                         </button>
                     </div>
                     <div class="card-body p-lg-3" style="display: none;">
-                        <form th:action="@{findUserbyId}" method="post">
+                       
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="beneficiary-user-id">User ID:</label>
@@ -146,7 +163,7 @@
                                             <span class="input-group-text">#</span>
                                         </div>
                                         <input type="text" id="beneficiary-user-id" class="form-control" name="userId"
-                                            required th:value="${benificiaryId}" th:disabled="${benificiaryId != null}"
+                                            required th:value="${user.id}"
                                             placeholder="User Id" readonly th::disabled="disabled" disabled="disabled">
 
                                     </div>
@@ -159,55 +176,76 @@
                                             <span class="input-group-text">#</span>
                                         </div>
                                         <input type="text" id="beneficiary-name" class="form-control"
-                                            disabled="disabled" name="beneficiaryName" th:value="${beneficiaryName}"
+                                            disabled="disabled" name="beneficiaryName" th:value="${user.name}"
                                             th:disabled="disabled" placeholder="Full Name" readonly required>
                                     </div>
 
                                 </div>
                             </div>
-                        </form>
+                     
+                        <form th:action="@{withdraw}" method="post">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3 form-outline">
                                     <label for="withdrawal-method">Account Balance:</label>
-                                    <input type="text" class="form-control" readonly disabled placeholder="0.00">
+                                    <input type="text" class="form-control" readonly disabled placeholder="0.00" th:value="${user.deposite}">
                                 </div>
-
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3 form-outline">
-                                    <label for="withdrawal-method">Enter Amount:</label>
-                                    <input type="text" class="form-control" placeholder="Enter Amount to Transfer"
-                                        pattern="[0-9]+" title="Please enter only numeric values">
+                                    <label for="withdrawal-method">Enter Amount*</label>
+                                    <input type="text" id="amount-input" class="form-control" placeholder="Enter Amount to Transfer"
+                                        pattern="[0-9]+" title="Please enter only numeric values" name="amount">
                                 </div>
-
                             </div>
-
                             <div class="col-md-6">
-                                <form th:action="@{/sender}" method="post">
-
-                                    <div class="mb-3 form-outline">
-                                        <label for="withdrawal-method">Admin Charge(5%):</label>
-                                        <input type="text" class="form-control" readonly disabled placeholder="0.00">
-                                    </div>
-
-
-                                </form>
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-method">Security Code*</label>
+                                    <input type="text"class="form-control" placeholder="Enter Security code" name="securityCode">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 form-outline">
+                                    <label for="withdrawal-method">Admin Charge (5%):</label>
+                                    <input type="text" id="admin-charge" class="form-control" readonly disabled placeholder="0.00">
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3 form-outline">
                                     <label for="withdrawal-amount">Net Amount:</label>
-                                    <input type="text" class="form-control" id="withdrawal-amount" placeholder="0.00"
-                                        name="balance" required disabled readonly>
-
+                                    <input type="text" id="net-amount" class="form-control" placeholder="0.00" name="balance" required disabled
+                                        readonly>
                                 </div>
-                                <div class="mb-3 form-outline">
-                                    <button type="button" class="btn btn-secondary"
-                                        onclick="window.location.href='/index'">Cancel</button>
+                               
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div class="form-outline">
+                                            <button type="button" class="btn btn-secondary" onclick="window.location.href='/dashboard'">Cancel</button>
                                     <button type="submit" id="withdraw-button" class="custom-btn btn-16">Withdraw</button>
                                 </div>
                             </div>
+
                         </div>
+                    </form>
+                        
+                        <script>
+                            var amountInput = document.getElementById('amount-input');
+                            var adminChargeInput = document.getElementById('admin-charge');
+                            var netAmountInput = document.getElementById('net-amount');
+
+                            amountInput.addEventListener('input', updateAmounts);
+                            amountInput.addEventListener('blur', updateAmounts);
+
+                            function updateAmounts() {
+                                var amount = parseFloat(amountInput.value) || 0;
+                                var adminCharge = (amount * 0.05).toFixed(2);
+                                var netAmount = (amount - adminCharge).toFixed(2);
+
+                                adminChargeInput.value = adminCharge;
+                                netAmountInput.value = netAmount;
+                            }
+                        </script>
+
                     </div>
                 </div>
 
