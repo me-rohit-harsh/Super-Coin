@@ -94,6 +94,9 @@
 						</a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item">
 							<i class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
 						</a>
+						<a th:href="@{withdrwalstatus}" class="dashboard-nav-dropdown-item">
+							<i class="fab fa-brands fa-readme"></i> Transaction Brief
+						</a>
 					</div>
 				</div>
 
@@ -148,13 +151,13 @@
 			<div class="container mt-3 ">
 				<div class="row ">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-						<div class="card h-100 p-5">
-
-							<form th:action="@{/kycUpdate}" method="post" enctype="multipart/form-data">
+						<div class="card h-100">
+							<h2 class="text-center card-header"> KYC From <Span th:if="${kyc.status!=null}"
+									th:text="'[ '+${kyc.status}+' ]'"></Span></h2>
+							<form th:action="@{/kycUpdate}" method="post" enctype="multipart/form-data" class="p-5">
 								<div class="row">
 
-									<h2 class="text-center"> KYC From  <Span th:if="${kyc.status!=null}"
-											th:text="'[ '+${kyc.status}+' ]'"></Span></h2>
+
 
 									<div class="mb-3 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 										<label for="name" class="form-label">Name</label> <input type="text"

@@ -400,7 +400,7 @@
 								</thead>
 								<tbody>
 									
-									 <tr th:each="transaction : ${transactions}">
+									 <tr th:each="transaction : ${funds}">
                         <td th:text="${transaction.id}"></td>
                         <td th:text="${transaction.ammount}"></td>
                         <td>
@@ -414,7 +414,7 @@
                     </tr>
 									
 								</tbody>
-								<tfoot th:if="${#lists.size(transactions) > 5}">
+								<tfoot th:if="${#lists.size(funds) > 5}">
 
 									<tr>
 										<th>Innovice Id</th>

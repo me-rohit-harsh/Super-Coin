@@ -1,18 +1,10 @@
 package com.supercoin.coin.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.stereotype.Repository;
 import com.supercoin.coin.model.Transaction;
 
-
-public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-
-	Transaction findByRefId(String upiRefNo);
-
-	List<Transaction> findByUserId(Integer id);
-
-	List<Transaction> findByStatusAndUserId(boolean status, Integer id);
-	
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    // Add custom query methods if needed
 }

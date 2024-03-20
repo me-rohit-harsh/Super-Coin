@@ -715,6 +715,7 @@ h1,
 .btn-16 {
     border: none;
     color: #000;
+    top: 3px !important;
 }
 
 .btn-16:after {

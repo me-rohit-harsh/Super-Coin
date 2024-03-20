@@ -2,23 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-<!-- bootstrap -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dashboard</title>
+	<!-- bootstrap -->
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
-<!-- External Libraries -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+	<!-- External Libraries -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
 
-<!-- Custom Styles -->
-<link rel="stylesheet" th:href="@{/css/common.css}">
+	<!-- Custom Styles -->
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 
 
 
@@ -29,29 +25,26 @@
 		<!-- Navigation -->
 		<div class="dashboard-nav">
 			<header>
-				<a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a> <a
-					href="#" class="brand-logo"> <i class="fas fa-anchor"></i> <span>BRAND</span>
+				<a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a> <a href="#" class="brand-logo"> <i
+						class="fas fa-anchor"></i> <span>BRAND</span>
 				</a>
 			</header>
 
 			<nav class="dashboard-nav-list">
-				<a th:href="@{dashboard}" class="dashboard-nav-item "><i
-					class="fas fa-tachometer-alt"></i> Dashboard</a> <a
-					th:href="@{profile}" class="dashboard-nav-item  "><i
-					class="fas fa-user"></i> Profile</a> <a href="#"
-					class="dashboard-nav-item active"><i class="fas fa-chart-line"></i>
+				<a th:href="@{dashboard}" class="dashboard-nav-item "><i class="fas fa-tachometer-alt"></i>
+					Dashboard</a> <a th:href="@{profile}" class="dashboard-nav-item  "><i class="fas fa-user"></i>
+					Profile</a> <a href="#" class="dashboard-nav-item active"><i class="fas fa-chart-line"></i>
 					Income</a>
 
 				<!-- Users Dropdown -->
 				<div class='dashboard-nav-dropdown'>
-					<a href="#!"
-						class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i
-						class="fas fa-users"></i> Users
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i class="fas fa-users"></i>
+						Users
 					</a>
 					<div class='dashboard-nav-dropdown-menu'>
 						<a th:href="@{directmember}" class="dashboard-nav-dropdown-item">
 							<i class="fas fa-code-branch"
-							style="transform: rotate(180deg) scaleX(-1); padding-right: 15px;"></i>
+								style="transform: rotate(180deg) scaleX(-1); padding-right: 15px;"></i>
 							Direct Member
 						</a> <a th:href="@{teammember}" class="dashboard-nav-dropdown-item">
 							<i class="fas fa-solid fa-sitemap"></i> Team Member
@@ -61,9 +54,8 @@
 
 				<!-- Wallet Dropdown -->
 				<div class='dashboard-nav-dropdown'>
-					<a href="#!"
-						class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i
-						class="fas fa-solid fa-wallet"></i> Wallet
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"> <i
+							class="fas fa-solid fa-wallet"></i> Wallet
 					</a>
 					<div class='dashboard-nav-dropdown-menu'>
 						<a th:href="@{profitwallet}" class="dashboard-nav-dropdown-item">
@@ -71,11 +63,13 @@
 						</a> <a th:href="@{depositwallet}" class="dashboard-nav-dropdown-item">
 							<i class="fas fa-solid fa-money-bill-wave"></i> Deposit Wallet
 						</a>
+						<a th:href="@{withdrwalstatus}" class="dashboard-nav-dropdown-item">
+							<i class="fab fa-brands fa-readme"></i> Transaction Brief
+						</a>
 					</div>
 				</div>
 
-				<a th:href="@{kyc}" class="dashboard-nav-item"><i
-					class="fas fa-file-upload"></i> KYC</a>
+				<a th:href="@{kyc}" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> KYC</a>
 
 				<!-- Media Section (Commented Out)
                 <div class='dashboard-nav-dropdown'>
@@ -91,11 +85,9 @@
                 </div>
                 -->
 
-				<a th:href="@{support}" class="dashboard-nav-item"><i
-					class="fas fa-solid fa-life-ring"></i> Support</a>
+				<a th:href="@{support}" class="dashboard-nav-item"><i class="fas fa-solid fa-life-ring"></i> Support</a>
 				<div class="nav-item-divider"></div>
-				<a th:href="@{logout}" class="dashboard-nav-item"><i
-					class="fas fa-sign-out-alt"></i> Logout</a>
+				<a th:href="@{logout}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
 			</nav>
 		</div>
 
@@ -119,9 +111,7 @@
 
 					<!-- Circle Image Profile -->
 					<div class="profile-image">
-						<img
-							src="https://bootdey.com/img/Content/avatar/avatar1.png"
-							alt="Profile Image"
+						<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Profile Image"
 							style="width: 50px; height: 50px; border-radius: 50%;">
 					</div>
 				</div>
@@ -129,8 +119,8 @@
 			<div class="container text-center">
 				<h1>Income Page</h1>
 			</div>
-			
-			
+
+
 		</div>
 	</div>
 
